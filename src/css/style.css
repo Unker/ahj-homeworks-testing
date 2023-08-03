@@ -1,0 +1,92 @@
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1em;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.input {
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1em;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.cards {
+    margin: 10px 0;
+    height: 25px;
+}
+
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.card {
+    float: left;
+    width: 39px;
+    height: 25px;
+    text-indent: -9999px;
+    background-position: 0 0;
+    margin-right: 4px;
+}
+
+.cards li {
+    display: block;
+    float: left;
+}
+
+.card.cdisabled {
+    background-position: 0 -25px;
+    opacity: .3;
+}
+
+.card.visa {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-visa.gif);
+}
+
+.card.master {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-mastercard.gif);
+}
+
+.card.amex {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-amex.gif);
+}
+
+.card.discover {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-discover.gif);
+}
+
+.card.jcb {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-jcb.gif);
+}
+
+.card.diners_club {
+    background-image: url(https://www.validcreditcardnumber.com/static/img/card-diners.gif);
+}
+
+/* .card.mir {
+    background-image: url(../img/card-mir.gif);
+} */

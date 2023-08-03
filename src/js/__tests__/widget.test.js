@@ -1,26 +1,26 @@
-import { InnFormWidget } from "../widget"
+import InnFormWidget from '../widget';
 
 test('widget should render', () => {
-    document.body.innerHTML = '<div class="container"></div>';
+  document.body.innerHTML = '<div class="container"></div>';
 
-    const container = document.querySelector('.container');
-    const widget = new InnFormWidget(container);
+  const container = document.querySelector('.container');
+  const widget = new InnFormWidget(container);
 
-    widget.bindToDOM();
+  widget.bindToDOM();
 
-    expect(container.innerHTML).toEqual(InnFormWidget.markup);
-})
+  expect(container.innerHTML).toEqual(InnFormWidget.markup);
+});
 
 test('widget should add valid class', () => {
-    document.body.innerHTML = '<div class="container"></div>';
+  document.body.innerHTML = '<div class="container"></div>';
 
-    const container = document.querySelector('.container');
-    const widget = new InnFormWidget(container);
+  const container = document.querySelector('.container');
+  const widget = new InnFormWidget(container);
 
-    widget.bindToDOM();
+  widget.bindToDOM();
 
-    widget.input.value = '7715964180';
-    widget.submit.click();
+  widget.input.value = '7715964180';
+  widget.submit.click();
 
-    expect(widget.input.classList.contains('valid')).toEqual(true);
-})
+  expect(widget.input.classList.contains('valid')).toEqual(true);
+});

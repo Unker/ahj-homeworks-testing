@@ -1,57 +1,85 @@
-import { isValidInn } from "./validators";
+import { isValidCard } from './validators';
 
-export class InnFormWidget {
-    constructor(parentEl) {
-        this.parentEl = parentEl;
+export default class CardFormWidget {
+  constructor(parentEl) {
+    this.parentEl = parentEl;
 
-        this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onInput = this.onInput.bind(this);
+  }
+
+  static get availableCards() {
+    return [
+      'visa',
+      'master',
+      'amex',
+      'discover',
+      'jcb',
+      'diners_club',
+      // 'mir',
+    ];
+  }
+
+  static generateCardList(cards) {
+    const listItems = cards.map((card) => `<li><span class="card ${card}">${card}</span></li>`).join('');
+    const html = `<ul class="cards list-unstyled">${listItems}</ul>`;
+    return html;
+  }
+
+  static get markup() {
+    return `
+      <form class="card-form-widget">
+          <label for="card-input">Check your credit card number</label>
+          ${CardFormWidget.generateCardList(CardFormWidget.availableCards)}
+          <div class="control">
+              <input type="text" id="card-input" class="input">
+              <button class="submit btn">Click to Validate</button>
+          </div>
+      </form>
+      `;
+  }
+
+  static get submitSelector() {
+    return '.submit';
+  }
+
+  static get inputSelector() {
+    return '.input';
+  }
+
+  static get selector() {
+    return '.card-form-widget';
+  }
+
+  bindToDOM() {
+    this.parentEl.innerHTML = CardFormWidget.markup;
+
+    this.element = this.parentEl.querySelector(CardFormWidget.selector);
+    this.submit = this.element.querySelector(CardFormWidget.submitSelector);
+    this.input = this.element.querySelector(CardFormWidget.inputSelector);
+
+    this.element.addEventListener('submit', this.onSubmit);
+    this.element.addEventListener('onkeydown', this.onInput);
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    const { value } = this.input;
+
+    if (isValidCard(value)) {
+      this.input.classList.add('valid');
+      this.input.classList.remove('invalid');
+    } else {
+      this.input.classList.add('invalid');
+      this.input.classList.remove('valid');
     }
+  }
 
-    static get markup() {
-        return `
-        <form class="innogrn-form-widget">
-            <div class="control">
-                <label for="innogrn-input">Введите ИНН/ОГРН</label>
-                <input type="text" id="innogrn-input" class="input">
-            </div>
-            <button class="submit">Далее</button>
-        </form>
-        `;
-    }
+  onInput(e) {
+    e.preventDefault();
 
-    static get submitSelector() {
-        return '.submit';
-    }
-
-    static get inputSelector() {
-        return '.input';
-    }
-
-    static get selector() {
-        return '.innogrn-form-widget';
-    }
-
-    bindToDOM() {
-        this.parentEl.innerHTML = InnFormWidget.markup;
-
-        this.element = this.parentEl.querySelector(InnFormWidget.selector);
-        this.submit = this.element.querySelector(InnFormWidget.submitSelector);
-        this.input = this.element.querySelector(InnFormWidget.inputSelector);
-
-        this.element.addEventListener('submit', this.onSubmit);
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-
-        const value = this.input.value;
-
-        if(isValidInn(value)) {
-            this.input.classList.add('valid');
-            this.input.classList.remove('invalid');
-        } else {
-            this.input.classList.add('invalid');
-            this.input.classList.remove('valid');
-        }
-    }
+    const { value } = this.input;
+    console.log(value);
+  }
 }
