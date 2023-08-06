@@ -3,7 +3,7 @@ export function isValidInn(value) {
 }
 
 export function isValidCard(cardNumber) {
-  const number = Number(cardNumber.trim());
+  const number = cardNumber.trim();
   if (!number) {
     return false;
   }
