@@ -1,19 +1,25 @@
-import { isValidInn } from '../validators';
+import { isValidCard } from '../validators';
 
-test('should be false if inn length less then 10', () => {
-  const result = isValidInn('');
-
-  expect(result).toBe(false);
-});
-
-test('should be false if inn length more then 10', () => {
-  const result = isValidInn('fdfasdfsadadfasdfasdfasdfadfa');
+test('should be false if card numbre is null', () => {
+  const result = isValidCard('');
 
   expect(result).toBe(false);
 });
 
-test('should be false if inn length is 10', () => {
-  const result = isValidInn('1234567890');
+test('should be false if card numbre not Number', () => {
+  const result = isValidCard('fdfasdfsadadfasdfasdfasdfadfa');
+
+  expect(result).toBe(false);
+});
+
+test('should be true if card numbre valid', () => {
+  const result = isValidCard('4111111111111111');
 
   expect(result).toBe(true);
+});
+
+test('should be false if card numbre invalid', () => {
+  const result = isValidCard('411111111111111');
+
+  expect(result).toBe(false);
 });

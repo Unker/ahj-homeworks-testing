@@ -68,15 +68,7 @@ export default class CardFormWidget {
 
     const cardNumber = this.input.value;
 
-    if (isValidCard(cardNumber)) {
-      this.input.classList.add('valid');
-      this.input.classList.remove('invalid');
-      CardFormWidget.displayValidationResult(true);
-    } else {
-      this.input.classList.add('invalid');
-      this.input.classList.remove('valid');
-      CardFormWidget.displayValidationResult(false);
-    }
+    this.displayValidationResult(isValidCard(cardNumber));
   }
 
   onInput() {
@@ -89,9 +81,15 @@ export default class CardFormWidget {
     this.displayPaymentSystem(paymentSystem);
   }
 
-  static displayValidationResult(isValid) {
+  displayValidationResult(isValid) {
     // Logic to display validation result on the DOM
-    console.log('displayValidationResult=', isValid);
+    if (isValid) {
+      this.input.classList.add('valid');
+      this.input.classList.remove('invalid');
+    } else {
+      this.input.classList.add('invalid');
+      this.input.classList.remove('valid');
+    }
   }
 
   displayPaymentSystem(paymentSystem) {

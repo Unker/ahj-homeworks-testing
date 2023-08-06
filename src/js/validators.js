@@ -3,6 +3,11 @@ export function isValidInn(value) {
 }
 
 export function isValidCard(cardNumber) {
+  const number = Number(cardNumber.trim());
+  if (!number) {
+    return false;
+  }
+
   // let sum = 0;
   // const parity = cardNumber.length % 2;
 
@@ -24,7 +29,7 @@ export function isValidCard(cardNumber) {
   // return parseInt(cardNumber[cardNumber.length - 1], 10) === (10 - (sum % 10));
 
   // Алгоритм Луна
-  const digits = cardNumber.split('').map(Number);
+  const digits = cardNumber.trim().split('').map(Number);
   let sum = 0;
   for (let i = 0; i < digits.length; i += 1) {
     let digit = digits[i];
