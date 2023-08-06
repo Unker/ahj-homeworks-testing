@@ -34,6 +34,15 @@
     border-radius: 4px;
 }
 
+.input.valid {
+    background-color: rgb(214, 243, 233);
+}
+
+.input.invalid {
+    background-color: rgb(253, 225, 225);
+}
+
+
 .cards {
     margin: 10px 0;
     height: 25px;

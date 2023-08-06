@@ -9,15 +9,16 @@ export default class CardFormWidget {
   }
 
   static get availableCards() {
-    return [
-      'visa',
-      'master',
-      'amex',
-      'discover',
-      'jcb',
-      'diners_club',
-      // 'mir',
-    ];
+    // [наименование, pattern]
+    return {
+      visa: ['Visa', /^4/],
+      master: ['MasterCard', /^5[1-5]/],
+      amex: ['American Express', /^3[47]/],
+      discover: ['Discover', /^(6011|622(12[6-9]|1[3-9][0-9]|2[0-5][0-9])|64[4-9]|65)/],
+      jcb: ['JCB', /^(?:2131|1800|35\d{3})\d{11}$/],
+      diners_club: ['Diners Club', /^3(?:0[0-5]|[68]\d)\d{11}$/],
+      // mir: ['Mir', /^22(?:1(?:2[6-9]|[3-9]\d)|[2-8]\d\d|9(?:[01]\d|2[0-5]))\d{10}$/],
+    };
   }
 
   static generateCardList(cards) {
@@ -30,7 +31,7 @@ export default class CardFormWidget {
     return `
       <form class="card-form-widget">
           <label for="card-input">Check your credit card number</label>
-          ${CardFormWidget.generateCardList(CardFormWidget.availableCards)}
+          ${CardFormWidget.generateCardList(Object.keys(CardFormWidget.availableCards))}
           <div class="control">
               <input type="text" id="card-input" class="input">
               <button class="submit btn">Click to Validate</button>
@@ -59,27 +60,67 @@ export default class CardFormWidget {
     this.input = this.element.querySelector(CardFormWidget.inputSelector);
 
     this.element.addEventListener('submit', this.onSubmit);
-    this.element.addEventListener('onkeydown', this.onInput);
+    this.element.addEventListener('keyup', this.onInput);
   }
 
   onSubmit(e) {
     e.preventDefault();
 
-    const { value } = this.input;
+    const cardNumber = this.input.value;
 
-    if (isValidCard(value)) {
+    if (isValidCard(cardNumber)) {
       this.input.classList.add('valid');
       this.input.classList.remove('invalid');
+      CardFormWidget.displayValidationResult(true);
     } else {
       this.input.classList.add('invalid');
       this.input.classList.remove('valid');
+      CardFormWidget.displayValidationResult(false);
     }
   }
 
-  onInput(e) {
-    e.preventDefault();
+  onInput() {
+    this.input.classList.remove('invalid');
+    this.input.classList.remove('valid');
 
-    const { value } = this.input;
-    console.log(value);
+    const cardNumber = this.input.value;
+    console.log(cardNumber);
+
+    const paymentSystem = CardFormWidget.detectPaymentSystem(cardNumber);
+    this.displayPaymentSystem(paymentSystem);
+  }
+
+  static displayValidationResult(isValid) {
+    // Logic to display validation result on the DOM
+    console.log('displayValidationResult=', isValid);
+  }
+
+  displayPaymentSystem(paymentSystem) {
+    if (!paymentSystem) {
+      const cards = this.element.querySelectorAll('.card');
+      cards.forEach((card) => {
+        card.classList.remove('cdisabled');
+      });
+      return;
+    }
+
+    if (paymentSystem) {
+      const disableCards = this.element.querySelectorAll(`.card:not(.${paymentSystem})`);
+      // const card = this.element.querySelector('.'+paymentSystem);
+      console.log(disableCards);
+      disableCards.forEach((card) => {
+        card.classList.add('cdisabled');
+      });
+    }
+  }
+
+  static detectPaymentSystem(cardNumber) {
+    for (const [key, value] of Object.entries(CardFormWidget.availableCards)) {
+      console.log(key, value);
+      if (value[1].test(cardNumber)) {
+        return key;
+      }
+    }
+    return null;
   }
 }
